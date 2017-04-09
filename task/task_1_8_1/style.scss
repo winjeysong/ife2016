@@ -1,0 +1,87 @@
+/* A simulation of bootstrap for ife task 1-8.
+ * winjeysong
+ * 2017.4
+ */
+
+/*variable*/
+$pkg-padding: 10px;
+$content-height: 50px;
+$line-height: $content-height;
+$content-border: 1px solid #999;
+$content-bg-color: #EEE;
+
+/*prefix for border-box*/
+@mixin border-box {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*clear floats with pseudo-elements*/
+@mixin clear-float {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+/*style of .package*/
+@mixin pkg-style {
+    float: left;
+    padding: $pkg-padding;
+    @include border-box;
+}
+
+/*style of .content*/
+@mixin content-style {
+    height: $content-height;
+    line-height: $line-height;
+    border: $content-border;
+    background-color: $content-bg-color;
+    text-align: center;
+}
+
+/*grid*/
+@mixin add-grid($size) {
+    @for $i from 1 through 12 {
+        .#{$size}-#{$i} {
+            width: 100% / 12 * $i;
+        }
+        .#{$size}-#{$i} > .content:after{
+            content: $i+"栏";
+        }
+    }
+}
+
+
+/*css*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+}
+
+.main:before,.main:after {
+    @include clear-float;
+}
+
+.package {
+    @include pkg-style;
+}
+
+.content {
+    @include content-style;
+}
+
+@media (min-width: 769px) {
+    @include add-grid(md);
+}
+
+@media (max-width: 768px) {
+    @include add-grid(sm);
+}
+
